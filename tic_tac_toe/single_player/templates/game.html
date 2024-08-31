@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Tic Tac Toe Game{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .game-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 80px;
+    }
+    .player-info {
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+    .board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 5px;
+    }
+    .tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .tile.player1 {
+        background-color: #4CAF50;
+        color: #fff;
+    }
+    .tile.player2 {
+        background-color: #FF5722;
+        color: #fff;
+    }
+    .tile.empty {
+        background-color: #333;
+        color: #fff;
+    }
+    .tile:hover {
+        transform: translateY(-3px);
+    }
+    .result {
+        animation: fadeIn 1s ease-in-out;
+    }
+    .winner {
+        background-color: #28a745;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #28a745;
+    }
+    .draw {
+        background-color: #ffc107;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #ffc107;
+    }
+    .action-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .action-btn:hover {
+        background-color: #0056b3;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    {% if winner %}
+    <div id="result" class="result winner">
+        <h2>🎉 {{ winner }} wins! 🎉</h2>
+        <button class="action-btn" onclick="restartGame()">Restart Game</button>
+        <button class="action-btn" onclick="window.location.href='/'">Go to Home</button>
+    </div>
+    {% elif draw %}
+    <div id="result" class="result draw">
+        <h2>It's a Draw! 🤝</h2>
+        <button class="action-btn" onclick="restartGame()">Restart Game</button>
+        <button class="action-btn" onclick="window.location.href='/'">Go to Home</button>
+    </div>
+    {% else %}
+        <div class="player-info">
+            Player 1: {{ player1_name }} | Player 2: {{ player2_name }}
+        </div>
+        <div class="player-info">
+            Current Turn: {{ current_turn }}
+        </div>
+        <div class="board">
+            {% for row in board %}
+                {% for cell in row %}
+                    <div class="tile 
+                        {% if cell == 1 %}player1{% elif cell == 2 %}player2{% else %}empty{% endif %}"
+                        data-row="{{ forloop.parentloop.counter0 }}" data-col="{{ forloop.counter0 }}">
+                        {{ cell|default_if_none:"" }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    document.querySelectorAll('.tile.empty').forEach(tile => {
+        tile.addEventListener('click', function() {
+            const row = this.getAttribute('data-row');
+            const col = this.getAttribute('data-col');
+            
+            // Send the data to the server via AJAX
+            fetch("/make_move/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({row: row, col: col})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();  // Reload to show the updated board or result
+                } else {
+                    alert('Move not allowed!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+
+    function restartGame() {
+        fetch("/restart_game/", {
+            method: "POST",
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();  // Reload to reset the game
+            } else {
+                alert('Error restarting the game!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Player Details{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .btn {
+        background-color: #4CAF50; /* Custom button color for play page */
+        color: #fff;
+    }
+    .btn:hover {
+        background-color: #45a049;
+    }
+    form {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            animation: growIn 1s ease-out;
+        }
+        h2 {
+            text-align: center;
+            color: #ff6347;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #bbb;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #555;
+            color: #f1f1f1;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #ff6347;
+            outline: none;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+        <h2>Add Details</h2>
+        <div class="mb-3">
+            <label class="form-label">Player 1 Name:</label>
+            <input name="player1" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Player 2 Name:</label>
+            <input name="player2" required type="text" class="form-control">
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </fieldset>  
+</form>
+{% endblock %}

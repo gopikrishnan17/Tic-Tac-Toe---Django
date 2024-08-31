@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}About the Game{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About Tic Tac Toe</h1>
+    
+    <section class="about-section">
+        <h2>History of the Game</h2>
+        <p>Tic Tac Toe, also known as Noughts and Crosses, is a simple yet engaging game with a long history. The origins of the game can be traced back to ancient Egypt and the Roman Empire. It has evolved over centuries into the classic 3x3 grid game we know today. Though simple, the game challenges players to think strategically and anticipate their opponent's moves.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Benefits of Playing Tic Tac Toe</h2>
+        <p>Tic Tac Toe is more than just a pastime; it offers numerous cognitive benefits. The game helps improve strategic thinking, problem-solving skills, and concentration. It encourages players to plan ahead and think critically, making it a great exercise for the mind. Playing Tic Tac Toe can also be a fun way to bond with friends or family, providing both entertainment and a mental workout.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Tech Stack</h2>
+        <p>This Tic Tac Toe app was built using modern web development technologies to ensure a smooth and responsive user experience. The tech stack includes:</p>
+        <ul>
+            <li><strong>Frontend:</strong> HTML, CSS (with custom styling for dark theme), JavaScript</li>
+            <li><strong>Backend:</strong> Django (Python) for handling game logic, user interactions, and template rendering</li>
+            <li><strong>Database:</strong> SQLite (for storing game state and user data)</li>
+            <li><strong>Deployment:</strong> Deployed on a web server with Django as the backend framework</li>
+        </ul>
+    </section>
+</div>
+
+<style>
+    .about-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 40px;
+        background-color: #1e1e1e;
+        border-radius: 10px;
+        color: #ffffff;
+        text-align: left;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .about-container h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #ff5733;
+        text-align: center;
+    }
+
+    .about-section {
+        margin-bottom: 30px;
+    }
+
+    .about-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+        color: #33a8ff;
+    }
+
+    .about-section p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 15px;
+    }
+
+    .about-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .about-section ul li {
+        font-size: 1.1em;
+        margin: 5px 0;
+        color: #cccccc;
+    }
+
+    .about-section ul li strong {
+        color: #ffffff;
+    }
+</style>
+{% endblock %}
