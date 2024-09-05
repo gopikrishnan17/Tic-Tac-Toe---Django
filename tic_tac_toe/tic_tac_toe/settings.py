@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+    'channels',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,19 +43,13 @@ INSTALLED_APPS = [
 
 CREATED_APPS = [
     "single_player",
+    "multi_player"
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + CREATED_APPS
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
-}
-
+WSGI_APPLICATION = 'tic_tac_toe.wsgi.application'
+ASGI_APPLICATION = 'tic_tac_toe.asgi.application'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -84,8 +80,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tic_tac_toe.wsgi.application"
+ASGI_APPLICATION = "tic_tac_toe.asgi.application"
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 

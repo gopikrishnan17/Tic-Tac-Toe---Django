@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Join Room{% endblock %}
+
+{% block extra_styles %} 
+
+.create-room-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 40px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.create-room-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #ff5733;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: block;
+    color: #cccccc;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+.btn-create {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #ffffff;
+    background-color: #33a8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #559df5;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1em;
+    text-align: left;
+}
+
+.alert-light {
+    background-color: #444;
+    border-left: 5px solid #33a8ff;
+}
+
+.alert-success {
+    background-color: #2e7d32;
+    border-left: 5px solid #66bb6a;
+}
+
+.alert-danger {
+    background-color: #c62828;
+    border-left: 5px solid #ef5350;
+}
+
+.alert-info {
+    background-color: #1565c0;
+    border-left: 5px solid #42a5f5;
+}
+
+.alert-warning {
+    background-color: #f57f17;
+    border-left: 5px solid #ffb300;
+}
+
+{% endblock %}
+
+{% block content %}
+<div class="create-room-container">
+    <h1>Join a Room</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-light">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="player_name">Player Name</label>
+            <input type="text" id="player_name" name="player_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="room_code">Room Code</label>
+            <input type="text" id="room_code" name="room_code">
+        </div>
+
+        <button type="submit" class="btn-create">Join Room</button>
+    </form>
+</div>
+{% endblock %}

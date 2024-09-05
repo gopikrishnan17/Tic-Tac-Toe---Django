@@ -98,7 +98,7 @@
     </div>
     {% else %}
         <div class="player-info">
-            Player 1: {{ player1_name }} | Player 2: {{ player2_name }}
+            Player 1: {{ player1_name }} (X) | Player 2: {{ player2_name }} (O)
         </div>
         <div class="player-info">
             Current Turn: {{ current_turn }}
@@ -109,7 +109,7 @@
                     <div class="tile 
                         {% if cell == 1 %}player1{% elif cell == 2 %}player2{% else %}empty{% endif %}"
                         data-row="{{ forloop.parentloop.counter0 }}" data-col="{{ forloop.counter0 }}">
-                        {{ cell|default_if_none:"" }}
+                        {% if cell == 1 %}X{% elif cell == 2 %}O{% else %}{% endif %}
                     </div>
                 {% endfor %}
             {% endfor %}

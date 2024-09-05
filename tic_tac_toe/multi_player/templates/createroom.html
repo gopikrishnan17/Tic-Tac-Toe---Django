@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Room{% endblock %}
+
+{% block extra_styles %} 
+
+.create-room-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 40px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.create-room-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #ff5733;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: block;
+    color: #cccccc;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+.room-code-display {
+    margin-top: 30px;
+}
+
+.room-code-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #2b2b2b;
+    padding: 10px;
+}
+
+.room-code-box input {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1.5em;
+    text-align: center;
+    outline: none;
+}
+
+.btn-copy {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: #ffffff;
+    background-color: #33a8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-copy:hover {
+    background-color: #559df5;
+}
+
+.btn-create {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #ffffff;
+    background-color: #33a8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 30px;
+}
+
+.btn-create:hover {
+    background-color: #559df5;
+}
+
+.copy-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #33a8ff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+{% endblock %}
+
+{% block content %}
+<div class="create-room-container">
+    <h1>Create a Room</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div id="copy-notification" class="copy-notification">Room code copied!</div>
+        <div class="form-group">
+            <label for="player_name">Player Name</label>
+            <input type="text" id="player_name" name="player_name" required>
+        </div>
+
+        <div class="form-group room-code-display">
+            <label for="room_code">Room Code</label>
+            <div class="room-code-box">
+                <input type="text" id="room_code" name="room_code" value="{{ room_code }}" readonly>
+                <button type="button" class="btn-copy" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-create">Create Room</button>
+    </form>
+</div>
+
+<script>
+    function copyToClipboard() {
+        var copyText = document.getElementById("room_code");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);  // For mobile devices
+        document.execCommand("copy");
+
+        // Show the notification
+        var notification = document.getElementById("copy-notification");
+        notification.style.opacity = "1";
+
+        // Hide the notification after 2 seconds
+        setTimeout(function() {
+            notification.style.opacity = "0";
+        }, 2000);
+    }
+</script>
+
+{% endblock %}
